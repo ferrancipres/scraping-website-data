@@ -23,4 +23,4 @@ const CONFIG = {
     }
 };
 
-export default CONFIG[ENV];
+export default CONFIG[ENV]; 
