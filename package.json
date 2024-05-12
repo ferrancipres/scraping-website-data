@@ -1,0 +1,20 @@
+{
+  "name": "scrapping-website-data",
+  "version": "1.0.0",
+  "description": "Este repositorio contiene el código desarrollado para afrontar el desafío propuesto por la empresa \"Soy Super\". El objetivo principal de este proyecto es crear una API que se integre con un scraper para recopilar información relevante de Hacker News, una plataforma popular para compartir noticias y discutir sobre tecnología.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./src/index.js",
+    "dev": "nodemon ./src/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.1.0"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
