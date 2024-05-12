@@ -1,6 +1,6 @@
 // Crear servidor
 import express from 'express';
-import newsRoutes from './routes/news.routes.js';
+import scraperRoutes from './routes/scraper.routes.js';
 
 const app = express();
 app.use(express.json());
@@ -8,6 +8,6 @@ app.use(express.json());
 //middleware use
 
 //ejemplo de endpoint
-app.use('/', newsRoutes);
+app.use('/', scraperRoutes);
 
 export default app;
