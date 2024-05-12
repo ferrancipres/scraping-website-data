@@ -18,7 +18,7 @@ const CONFIG = {
 },
     production : {
         app: {
-            PORT: process.env.PORT || 3002
+            PORT: process.env.PORT || 3002 
         }
     }
 };
