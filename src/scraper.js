@@ -18,15 +18,21 @@ import { chromium } from 'playwright';
         const rows = document.querySelectorAll('tr.athing');
         const news = [];
         rows.forEach(row => {
+            const rank = row.querySelector('td.title > span.rank')?.innerText.replace('.', '') || null;
             const title = row.querySelector('td.title > span > a').innerText;
             const url = row.querySelector('td.title > span > a').href;
-            const subtitle = row.nextElementSibling.querySelector('td.subtext > span').innerText;
-            // const subtitle = row.nextElementSibling.querySelector('td.subtext > span.score').innerText;
-            news.push({ title, subtitle, url });
+            const score = row.nextElementSibling.querySelector('td.subtext > span.subline > span.score')?.innerText || null;
+            const author = row.nextElementSibling.querySelector('td.subtext > span.subline > a.hnuser')?.innerText || null;
+            const age = row.nextElementSibling.querySelector('td.subtext > span.subline > span.age > a')?.innerText || null;
+            const clickyHider = row.nextElementSibling.querySelector('td.subtext > span.subline > a:nth-last-child(2)')?.innerText || null;
+            const comments = row.nextElementSibling.querySelector('td.subtext > span.subline > a:last-child')?.innerText || null;
+
+            news.push({ rank, title, url, score, author, age, clickyHider, comments});
         });
         return news;
 
     });
+    
     await context.close();
     await browser.close();
     console.log(news);
