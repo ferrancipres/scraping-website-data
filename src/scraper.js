@@ -38,3 +38,11 @@ export async function scrapeNews() {
     console.log(news);
     return news;
 };
+
+
+// Llama a la función scrapeNews y muestra el resultado en la consola
+scrapeNews().then(news => {
+    console.log(news);
+  }).catch(error => {
+    console.error(error);
+  });
