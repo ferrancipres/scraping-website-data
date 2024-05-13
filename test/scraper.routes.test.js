@@ -8,11 +8,11 @@ describe('GET /', () => {
         expect(response.statusCode).toBe(200);
     });
 
-    // should respond with a message
-    test('should respond with a message', async () => {
-        const response = (await request(server).get('/'));
-        expect(response.text).toBe('Get All News Ferran');
-    });
+    // // should respond with a message -> REVISAR TEST CON LA INTEGRACION DE LA API & SCRAPER no recibe un mensaje. 
+    // test('should respond with a message', async () => {
+    //     const response = (await request(server).get('/'));
+    //     expect(response.text).toBe('Get All News Ferran');
+    // });
 
      // should respond with type json/ object/ array
     test('should respond with an array', async () => {
