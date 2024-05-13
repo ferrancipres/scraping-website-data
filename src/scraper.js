@@ -10,7 +10,7 @@ import { chromium } from 'playwright';
     //Generar contexto de navegación en el navegador
     const context = await browser.newContext();
     const page = await context.newPage();
-    await page.goto('https://news.ycombinator.com/');
+    await page.goto('https://news.ycombinator.com/?p=2');
     await page.waitForSelector('tr.athing');
 
     const news = await page.evaluate(() => {
@@ -32,7 +32,7 @@ import { chromium } from 'playwright';
         return news;
 
     });
-    
+
     await context.close();
     await browser.close();
     console.log(news);
