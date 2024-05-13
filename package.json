@@ -21,8 +21,9 @@
   },
   "type": "module",
   "dependencies": {
-    "express": "^4.19.2"
-  }, 
+    "express": "^4.19.2",
+    "playwright": "^1.44.0"
+  },
   "jest": {
     "transform": {
       "^.+\\.jsx?$": "babel-jest"
