@@ -22,6 +22,7 @@
   "type": "module",
   "dependencies": {
     "express": "^4.19.2",
+    "playwright": "^1.44.0",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0"
   },
