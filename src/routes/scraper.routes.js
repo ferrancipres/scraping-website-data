@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getNews, getNewsByNumber } from "../controllers/new.controller.js";
+import { getNews } from "../controllers/new.controller.js";
 
 const scraperRoutes = Router();
 
@@ -30,30 +30,53 @@ const scraperRoutes = Router();
 
 scraperRoutes.get('/', getNews);
 
-/**
- * @openapi
- * /number:
- *  get:
- *      tags:    
- *          - News
- *      responses:
- *         200:
- *          description: Returns the news
- *          content:
- *              application/json:
- *                  schema:
- *                      type: object
- *                      properties:
- *                          status:
- *                              type: string
- *                              example: OK
- *                          data:  
- *                              type: array
- *                              items:
- *                                 type: object
- *                                 properties: 
- *                                    // properties of the items in the data array go here
- */
-scraperRoutes.get('/:number', getNewsByNumber);
+// /**
+//  * @openapi
+//  * /pageId:
+//  *  get:
+//  *      tags:    
+//  *          - News
+//  *      parameters:
+//  *          - in: path
+//  *            name: pageId
+//  *            schema:
+//  *              type: integer
+//  *            required: true
+//  *            description: The id of the page to retrieve
+//  *      responses:
+//  *          200:
+//  *              description: Returns the news
+//  *              content:
+//  *                  application/json:
+//  *                      schema:
+//  *                          type: object
+//  *                          properties:
+//  *                              status:
+//  *                                  type: string
+//  *                                  example: OK
+//  *                              data:  
+//  *                                  type: array
+//  *                                  items:
+//  *                                      type: object
+//  *                                      properties: 
+//  *                                          // properties of the items in the data array go here
+//  *          500: 
+//  *              description: Internal Server Error
+//  *              content: 
+//  *                  application/json:
+//  *                      schema:
+//  *                          type: object
+//  *                          properties:
+//  *                              status:  
+//  *                                  type: string
+//  *                                  example: Internal Server Error
+//  *                              data: 
+//  *                                  type: object
+//  *                                  properties:
+//  *                                      error:
+//  *                                          type: string
+//  *                                          example: Error message
+//  */
+// scraperRoutes.get('/:pageId', getNewsByPage);
 
 export default scraperRoutes;
