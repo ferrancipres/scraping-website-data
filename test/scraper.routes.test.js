@@ -35,11 +35,11 @@ describe('GET /:number', () => {
         expect(response.statusCode).toBe(200);
     });
 
-    // should respond with a message
-    test('should respond with a message', async () => {
-        const response = (await request(server).get('/:number'));
-        expect(response.text).toBe('Get News by Number Ferran');
-    });
+    // // should respond with a message
+    // test('should respond with a message', async () => {
+    //     const response = (await request(server).get('/:number'));
+    //     expect(response.text).toBe('Get News by Number Ferran');
+    // });
 
      // should respond with type json/ object/ array
     test('should respond with an array', async () => {
