@@ -1,7 +1,7 @@
 import { chromium } from 'playwright';
 
 // Genera un ámbito autoejecutable para poder usar async/await
-(async () => {
+export async function scrapeNews() {
     const browser = await chromium.launch({
         headless: false,
         defaultViewport: null
@@ -36,4 +36,5 @@ import { chromium } from 'playwright';
     await context.close();
     await browser.close();
     console.log(news);
-})();
+    return news;
+};
