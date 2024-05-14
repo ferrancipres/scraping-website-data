@@ -8,11 +8,6 @@ let connectionErrorLogged = false;
 
 createClient()
   .on('error', err => {
-    // if (err.code === 'ECONNREFUSED') {
-    // //   console.log('Connection to Redis refused. Please ensure Redis server is running.');
-    // } else {
-    // //   console.log('Redis Client Error', err);
-    // }
     redisAvailable = false;
     if (!connectionErrorLogged) {
       console.log('Redis connection status: ', redisAvailable ? 'Connected' : 'Disconnected');
