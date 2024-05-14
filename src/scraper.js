@@ -47,39 +47,36 @@ export async function scrapeNewsByPage(i) {
 
     const allNews = [];
 
-    for(let pageCounter = 1; pageCounter <= i; pageCounter++) {
-        const context = await browser.newContext();
-        const page = await context.newPage();
-        await page.goto('https://news.ycombinator.com/?p=' + pageCounter);
-        await page.waitForSelector('tr.athing');
+    const context = await browser.newContext();
+    const page = await context.newPage();
+    await page.goto('https://news.ycombinator.com/?p=' + i);
+    await page.waitForSelector('tr.athing');
 
-        const news = await page.evaluate(() => {
-            const rows = document.querySelectorAll('tr.athing');
-            const news = [];
-            rows.forEach(row => {
-                const rank = row.querySelector('td.title > span.rank')?.innerText.replace('.', '') || null;
-                const title = row.querySelector('td.title > span > a').innerText;
-                const url = row.querySelector('td.title > span > a').href;
-                const score = row.nextElementSibling.querySelector('td.subtext > span.subline > span.score')?.innerText || null;
-                const author = row.nextElementSibling.querySelector('td.subtext > span.subline > a.hnuser')?.innerText || null;
-                const age = row.nextElementSibling.querySelector('td.subtext > span.subline > span.age > a')?.innerText || null;
-                const clickyHider = row.nextElementSibling.querySelector('td.subtext > span.subline > a:nth-last-child(2)')?.innerText || null;
-                const comments = row.nextElementSibling.querySelector('td.subtext > span.subline > a:last-child')?.innerText || null;
+    const news = await page.evaluate(() => {
+        const rows = document.querySelectorAll('tr.athing');
+        const news = [];
+        rows.forEach(row => {
+            const rank = row.querySelector('td.title > span.rank')?.innerText.replace('.', '') || null;
+            const title = row.querySelector('td.title > span > a').innerText;
+            const url = row.querySelector('td.title > span > a').href;
+            const score = row.nextElementSibling.querySelector('td.subtext > span.subline > span.score')?.innerText || null;
+            const author = row.nextElementSibling.querySelector('td.subtext > span.subline > a.hnuser')?.innerText || null;
+            const age = row.nextElementSibling.querySelector('td.subtext > span.subline > span.age > a')?.innerText || null;
+            const clickyHider = row.nextElementSibling.querySelector('td.subtext > span.subline > a:nth-last-child(2)')?.innerText || null;
+            const comments = row.nextElementSibling.querySelector('td.subtext > span.subline > a:last-child')?.innerText || null;
 
-                news.push({ rank, title, url, score, author, age, clickyHider, comments});
-            });
-            return news;
+            news.push({ rank, title, url, score, author, age, clickyHider, comments});
         });
+        return news;
+    });
 
-        allNews.push(...news);
-        await context.close();
-    }
+    allNews.push(...news);
+    await context.close();
 
     await browser.close();
     console.log(allNews);
     return allNews;
 };
-
 
 // // Llama a la función scrapeNews y muestra el resultado en la consola
 // scrapeNews().then(news => {

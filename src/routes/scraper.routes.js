@@ -1,9 +1,7 @@
 import { Router } from "express";
 import { getNews, getNewsByPage } from "../controllers/new.controller.js";
-import apicache from 'apicache';
 
 const scraperRoutes = Router();
-const cache = apicache.middleware;
 
 /**
  * @openapi
