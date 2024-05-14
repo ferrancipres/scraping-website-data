@@ -1,13 +1,15 @@
 // Crear servidor
 import express from 'express';
 import scraperRoutes from './routes/scraper.routes.js';
+import responseTime from 'response-time';
+import apicache from 'apicache';
 
 const app = express();
-app.use(express.json());
-//para que las peticiones sean en json añadir dependencias con el método use
-//middleware use
+const cache = apicache.middleware;
 
-//ejemplo de endpoint
+app.use(express.json());
+app.use(responseTime());
 app.use('/', scraperRoutes);
+app.use(cache('5 minutes'));
 
 export default app;

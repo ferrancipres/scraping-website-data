@@ -17,10 +17,12 @@
     "dotenv": "^16.4.5",
     "jest": "^29.7.0",
     "nodemon": "^3.1.0",
+    "response-time": "^2.3.2",
     "supertest": "^7.0.0"
   },
   "type": "module",
   "dependencies": {
+    "apicache": "^1.6.3",
     "express": "^4.19.2",
     "playwright": "^1.44.0",
     "swagger-jsdoc": "^6.2.8",
