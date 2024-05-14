@@ -10,6 +10,6 @@ const cache = apicache.middleware;
 app.use(express.json());
 app.use(responseTime());
 app.use('/', scraperRoutes);
-app.use(cache('5 minutes'));
+app.use(cache('2 minutes'));
 
 export default app;
