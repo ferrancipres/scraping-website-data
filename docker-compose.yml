@@ -1,0 +1,17 @@
+version: "3.8"
+services: 
+  server:
+    container_name: server
+    restart: always
+    build: .
+    ports:
+      - "4000:3001"
+    links:
+      - redis
+
+  redis:
+    container_name: redisDB
+    imagen: redis
+    ports: 
+      - "6379:6379"
+    
