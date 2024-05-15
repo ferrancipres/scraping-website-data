@@ -2,66 +2,63 @@ import { scrapeNews } from '../scraper.js';
 import { scrapeNewsByPage } from '../scraper.js';
 import { createClient } from 'redis';
 
-let client;
+const cliente = createClient({
+  host: 'redis',
+  port: 6379
+});
 
-createClient()
+cliente
   .on('error', err => {
-    console.error(err);
+    console.error('Error connecting to Redis: ', err);
   })
-
   .on('connect', () => {
-    consolel.log('Connected to Redis');
+    console.log('Connected to Redis');
   })
+  .connect();
 
-  .connect()
-  .then((connectedClient) => {
-    client = connectedClient;
-  })
-  .catch(() => {
-    console.error('Failed to connect to Redis');
-  });
-  
-  export const getNews = async (req, res) => {
-    try {
-      const reply = await client.get('news_1');
+export const getNews = async (req, res) => {
+  try {
+    let news;
+    const reply = await cliente.get('news_1');
+    if(reply) {
+      news = JSON.parse(reply);
+    } else {
+      news = await scrapeNews();
+      await cliente.set('news_1', JSON.stringify(news));
+    }
+    res.status(200).json(news);
+  } catch(err) {
+    console.error(err);
+    res.status(500).send(err.message);
+  }
+};
+
+export const getNewsByPage = async (req, res) => {
+  const pageId = req.params.pageId;
+  try {
+    let news = [];
+    let lastPageInCache = 0;
+    for (let i = 1; i <= pageId; i++) {
+      const reply = await cliente.get(`news_${i}`);
       if(reply) {
-        console.log('News from Redis:', JSON.parse(reply)); // Add this line
-        return res.status(200).json(JSON.parse(reply));
+        news.push(...JSON.parse(reply));
+        lastPageInCache = i;
+      } else {
+        break;
       }
-  
-      const news = await scrapeNews();
-      console.log('Scraped news:', news); // Add this line
-      await client.set('news_1', JSON.stringify(news));
-      res.status(200).json(news);
-    } catch(err) {
-      console.error(err);
     }
-  };
-  
-  export const getNewsByPage = async (req, res) => {
-    const pageId = req.params.pageId;
-    try {
-      let lastPageInCache = 0;
-      let news = [];
-      for (let i = 1; i <= pageId; i++) {
-        const reply = await client.get(`news_${i}`);
-        if(reply) {
-          console.log(`News from Redis for page ${i}:`, JSON.parse(reply)); // Add this line
-          news.push(...JSON.parse(reply));
-          lastPageInCache = i;
-        }
+
+    if (lastPageInCache < pageId) {
+      for (let i = lastPageInCache + 1; i <= pageId; i++) {
+        const pageNews = i === 1 ? await scrapeNews() : await scrapeNewsByPage(i);
+        news.push(...pageNews);
+        await cliente.set(`news_${i}`, JSON.stringify(pageNews));
       }
-  
-      if (lastPageInCache < pageId) {
-        for (let i = lastPageInCache + 1; i <= pageId; i++) {
-          const pageNews = i === 1 ? await scrapeNews() : await scrapeNewsByPage(i);
-          console.log(`Scraped news for page ${i}:`, pageNews); // Add this line
-          news.push(...pageNews);
-        }
-      }
-  
-      res.status(200).json(news);
-    } catch (error) {
-      res.status(500).send(error.message);
     }
-  };
+
+    res.status(200).json(news);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send(error.message);
+  }
+};

@@ -23,7 +23,8 @@ RUN apt-get update && apt-get install -y \
 
 RUN npm install
 RUN npx playwright install
+RUN npm install -g nodemon
 
 EXPOSE 3001
 
-CMD ["node", "src/index.js"]
+CMD ["nodemon", "src/index.js"]
