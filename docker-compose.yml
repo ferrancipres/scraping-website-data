@@ -1,0 +1,8 @@
+version: "3"
+services:
+  redis:
+    image: 'redis'
+  server:
+    build: .
+    ports:
+      - "4001:3001"

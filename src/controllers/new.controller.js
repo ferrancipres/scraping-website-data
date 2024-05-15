@@ -3,85 +3,65 @@ import { scrapeNewsByPage } from '../scraper.js';
 import { createClient } from 'redis';
 
 let client;
-let redisAvailable = false;
-let connectionErrorLogged = false;
 
 createClient()
   .on('error', err => {
-    redisAvailable = false;
-    if (!connectionErrorLogged) {
-      console.log('Redis connection status: ', redisAvailable ? 'Connected' : 'Disconnected');
-      connectionErrorLogged = true;
-    }
+    console.error(err);
   })
 
   .on('connect', () => {
-    redisAvailable = true;
-    connectionErrorLogged = false;
-    console.log('Redis connection status: ', redisAvailable ? 'Connected' : 'Disconnected');
+    consolel.log('Connected to Redis');
   })
 
   .connect()
   .then((connectedClient) => {
     client = connectedClient;
-    redisAvailable = true;
-    connectionErrorLogged = false;
-    console.log('Redis connection status: ', redisAvailable ? 'Connected' : 'Disconnected');
   })
   .catch(() => {
-    redisAvailable = false;
-    if (!connectionErrorLogged) {
-      console.log('Redis connection status: ', redisAvailable ? 'Connected' : 'Disconnected');
-      connectionErrorLogged = true;
-    }
+    console.error('Failed to connect to Redis');
   });
   
-export const getNews = async (req, res) => {
-  try {
-    if (redisAvailable) {
+  export const getNews = async (req, res) => {
+    try {
       const reply = await client.get('news_1');
       if(reply) {
+        console.log('News from Redis:', JSON.parse(reply)); // Add this line
         return res.status(200).json(JSON.parse(reply));
       }
-    }
-
-    const news = await scrapeNews();
-    if (redisAvailable) {
+  
+      const news = await scrapeNews();
+      console.log('Scraped news:', news); // Add this line
       await client.set('news_1', JSON.stringify(news));
+      res.status(200).json(news);
+    } catch(err) {
+      console.error(err);
     }
-    res.status(200).json(news);
-  } catch(err) {
-    console.error(err);
-  }
-};
-
-export const getNewsByPage = async (req, res) => {
-  const pageId = req.params.pageId;
-  try {
-    let lastPageInCache = 0;
-    let news = [];
-    if (redisAvailable) {
+  };
+  
+  export const getNewsByPage = async (req, res) => {
+    const pageId = req.params.pageId;
+    try {
+      let lastPageInCache = 0;
+      let news = [];
       for (let i = 1; i <= pageId; i++) {
         const reply = await client.get(`news_${i}`);
         if(reply) {
+          console.log(`News from Redis for page ${i}:`, JSON.parse(reply)); // Add this line
           news.push(...JSON.parse(reply));
           lastPageInCache = i;
         }
       }
-    }
-
-    if (!redisAvailable || lastPageInCache < pageId) {
-      for (let i = lastPageInCache + 1; i <= pageId; i++) {
-        const pageNews = i === 1 ? await scrapeNews() : await scrapeNewsByPage(i);
-        news.push(...pageNews);
-        if (redisAvailable) {
-          await client.set(`news_${i}`, JSON.stringify(pageNews));
+  
+      if (lastPageInCache < pageId) {
+        for (let i = lastPageInCache + 1; i <= pageId; i++) {
+          const pageNews = i === 1 ? await scrapeNews() : await scrapeNewsByPage(i);
+          console.log(`Scraped news for page ${i}:`, pageNews); // Add this line
+          news.push(...pageNews);
         }
       }
+  
+      res.status(200).json(news);
+    } catch (error) {
+      res.status(500).send(error.message);
     }
-
-    res.status(200).json(news);
-  } catch (error) {
-    res.status(500).send(error.message);
-  }
-};
+  };
