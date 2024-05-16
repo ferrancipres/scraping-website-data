@@ -3,8 +3,11 @@ import { scrapeNewsByPage } from '../scraper.js';
 import { createClient } from 'redis';
 
 const cliente = createClient({
-  host: 'redis',
-  port: 6379
+  legacyMode: true,
+  socket: {
+    port: '6379',
+    host: 'redis'
+  }
 });
 
 cliente

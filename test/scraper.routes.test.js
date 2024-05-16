@@ -1,12 +1,16 @@
 import server from '../src/server.js';
 import request from 'supertest';
 
+async function testGet(route, expectedStatusCode, expectedBodyType) {
+  const response = await request(server).get(route);
+  expect(response.statusCode).toBe(expectedStatusCode);
+  expect(response.body).toBeInstanceOf(expectedBodyType);
+}
+
 describe('GET /', () => {
-    // should respond with a 200 status code
-    test('should respond with a 200 status code', async () => {
-        const response = (await request(server).get('/'));
-        expect(response.statusCode).toBe(200);
-    });
+  test('should respond with a 200 status code and an array', async () => {
+    await testGet('/', 200, Array);
+  });
 
     test('should respond with an array', async () => {
         const response = (await request(server).get('/'));
@@ -17,14 +21,13 @@ describe('GET /', () => {
         const response = (await request(server).get('/'));
         expect(response.body).toBeInstanceOf(Array);
     });
+
 });
 
 describe('GET /:pageId', () => {
-    // should respond with a 200 status code
-    test('should respond with a 200 status code', async () => {
-        const response = (await request(server).get('/:number'));
-        expect(response.statusCode).toBe(200);
-    });
+  test('should respond with a 200 status code and an array when page exists', async () => {
+    await testGet('/1', 200, Array);
+  });
 
     test('should respond with an array', async () => {
         const response = (await request(server).get('/:pageId'));
