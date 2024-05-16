@@ -1,7 +1,7 @@
 import { chromium } from 'playwright';
 
 export async function scrapeNews() {
-    const browser = await chromium.launch({
+    const browser = await chromium.launch({ 
         headless: true,
         defaultViewport: null
     });
