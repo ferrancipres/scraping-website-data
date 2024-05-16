@@ -2,13 +2,22 @@ import { scrapeNews } from '../scraper.js';
 import { scrapeNewsByPage } from '../scraper.js';
 import { createClient } from 'redis';
 
-const cliente = createClient({
-  legacyMode: true,
-  socket: {
-    port: '6379',
-    host: 'redis'
+let cliente;
+  if (process.env.NODE_ENV === 'production') {
+    cliente = createClient({
+      legacyMode: true,
+      socket: {
+        port: '6379',
+        host: 'redis'
+      }
+    });
+  } else {
+    cliente = createClient({
+      port: '6379',
+      host: 'localhost'
+    });
   }
-});
+  
 
 cliente
   .on('error', err => {
