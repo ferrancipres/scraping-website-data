@@ -6,14 +6,12 @@ if(process.env.NODE_ENV === 'production'){
     dotenv.config({ path: '.env.development' });
 }
 
-//Definir entorno
 const ENV = process.env.NODE_ENV ?? 'development';
 
-// Definir configuración
 const CONFIG = {
     development: {
     app: {
-        PORT: process.env.PORT || 3001
+        PORT: process.env.PORT || 3000
     },
 },
     production : {
