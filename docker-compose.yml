@@ -1,16 +1,13 @@
-version: "3.8"
+
+version: "3.9"
 services: 
   server:
-    container_name: server
-    restart: always
     build: .
-    ports:
-      - "4001:3001"
-    links:
+    ports: 
+      - "3001:3001"
+    links: 
       - redis
-
   redis:
-    container_name: redisDB
     image: redis
     ports: 
       - "6379:6379"
