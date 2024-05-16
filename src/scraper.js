@@ -1,20 +1,18 @@
 import { chromium } from 'playwright';
 
-// Genera un ámbito autoejecutable para poder usar async/await
 export async function scrapeNews() {
     const browser = await chromium.launch({
-        headless: false,
+        headless: true,
         defaultViewport: null
     });
 
-    //Generar contexto de navegación en el navegador
     const context = await browser.newContext();
     const page = await context.newPage();
     await page.goto('https://news.ycombinator.com/');
     await page.waitForSelector('tr.athing');
 
     const news = await page.evaluate(() => {
-        // Para seleccionar todas las filas de noticias
+
         const rows = document.querySelectorAll('tr.athing');
         const news = [];
         rows.forEach(row => {
@@ -41,7 +39,7 @@ export async function scrapeNews() {
 
 export async function scrapeNewsByPage(i) {
     const browser = await chromium.launch({
-        headless: false,
+        headless: true,
         defaultViewport: null
     });
 
@@ -79,11 +77,3 @@ export async function scrapeNewsByPage(i) {
     console.log(allNews);
     return allNews;
 };
-
-
-// // Llama a la función scrapeNews y muestra el resultado en la consola
-// scrapeNews().then(news => {
-//     console.log(news);
-//   }).catch(error => {
-//     console.error(error);
-//   });

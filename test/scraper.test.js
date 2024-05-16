@@ -4,7 +4,6 @@ import { scrapeNewsByPage } from '../src/scraper.js';
 describe('Scraper', () => {
     let news;
 
-    // Antes de cada prueba, extraemos las noticias
     beforeAll(async () => {
         news = await scrapeNews();
     });
@@ -52,7 +51,6 @@ describe('Scraper', () => {
 describe('Scraper', () => {
     let news;
 
-    // Antes de cada prueba, extraemos las noticias
     beforeAll(async () => {
         news = await scrapeNewsByPage();
     });
