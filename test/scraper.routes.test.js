@@ -2,7 +2,7 @@ import server from '../src/server.js';
 import request from 'supertest';
 
 describe('GET /', () => {
-    // should respond with a 200 status code
+    
     test('should respond with a 200 status code', async () => {
         const response = (await request(server).get('/'));
         expect(response.statusCode).toBe(200);
@@ -20,7 +20,7 @@ describe('GET /', () => {
 });
 
 describe('GET /:pageId', () => {
-    // should respond with a 200 status code
+
     test('should respond with a 200 status code', async () => {
         const response = (await request(server).get('/:number'));
         expect(response.statusCode).toBe(200);
