@@ -24,6 +24,6 @@ RUN apt-get update && apt-get install -y \
 RUN npm install
 RUN npx playwright install
 
-EXPOSE 3001
+EXPOSE 3000
 
 CMD ["node", "src/index.js"]

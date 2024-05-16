@@ -10,7 +10,6 @@ export const getNews = async (req, res) => {
     }
 };
 
-// scraper con número de página
 export const getNewsByPage = async (req, res) => {
     const i = req.params.pageId;
     try {
