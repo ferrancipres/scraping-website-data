@@ -1,4 +1,3 @@
-// Crear servidor
 import express from 'express';
 import scraperRoutes from './routes/scraper.routes.js';
 import responseTime from 'response-time';
