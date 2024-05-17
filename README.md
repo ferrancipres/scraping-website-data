@@ -170,7 +170,7 @@ To ensure the integrity of the remote project configuration, I have implemented 
 
 Before you start you must take into account that if you want to run the program locally (No docker):
 
-1. The branch you need is: `dev_server_scraping_web`
+1. The branch you need is: `dev_scraping_web_redis`
 
 2. Clone repository.
    `https://github.com/ferrancipres/scraping-website-data`
