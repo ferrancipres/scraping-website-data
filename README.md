@@ -15,7 +15,7 @@
 - [Installation and Startup-local](#-installation-startup-local)
 - [Installation and Startup-remote](#-installation-startup-remote)
 - [Contributions](#-contributions)
-- [Conctact](#-contact)
+- [Contact](#-contact)
 
 ##### About project
 
