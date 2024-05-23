@@ -21,6 +21,7 @@
   },
   "type": "module",
   "dependencies": {
+    "apicache": "^1.6.3",
     "express": "^4.19.2",
     "playwright": "^1.44.0",
     "swagger-jsdoc": "^6.2.8",
