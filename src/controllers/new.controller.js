@@ -5,7 +5,7 @@ import { createClient } from 'redis';
 const cliente = createClient({
   legacyMode: true,
   socket: {
-    port: '6379',
+    port: 6379,
     host: 'redis'
   }
 });
