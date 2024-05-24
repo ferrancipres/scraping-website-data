@@ -18,13 +18,12 @@ client
 export const getNews = async (req, res) => {
   try {
     const reply = await client.get('news_1');
-    console.log(reply);
     if(reply) {
       console.log('Retrieved news from Redis');
-      return res.status(200).json(JSON.parse(reply));
+      res.status(200).json(JSON.parse(reply));
     } else {
       const news = await scrapeNews();
-      await client.set('news_1', JSON.stringify(news));
+      await client.setex('news_1', 3600, JSON.stringify(news));
       console.log('Retrieved news by scraping');
       res.status(200).json(news);
     }
@@ -55,7 +54,7 @@ export const getNewsByPage = async (req, res) => {
         const pageNews = i === 1 ? await scrapeNews() : await scrapeNewsByPage(i);
         console.log(`Retrieved news for page ${i} by scraping`);
         news.push(...pageNews);
-        await client.set(`news_${i}`, JSON.stringify(pageNews));
+        await client.setex(`news_${i}`, 3600, JSON.stringify(pageNews));
       }
     }
 
